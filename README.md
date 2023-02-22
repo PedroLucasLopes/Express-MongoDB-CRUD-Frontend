@@ -9,6 +9,7 @@
   <li>Material UI</li>
   <li>React Router Dom</li>
   <li>Vite</li>
+  <li>Axios</li>
 </ul>
 
 <h2>⚙️ About the Project</h2>
