@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import Home from './Pages/Home/Home';
+import NewProduct from './Pages/New/NewProduct';
+import EditProduct from './Pages/Edit/EditProduct';
 import {
   createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
+  RouterProvider
 } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -17,7 +17,15 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />
-      }
+      },
+      {
+        path: '/new',
+        element: <NewProduct />
+      },
+      {
+        path: '/edit/:id',
+        element: <EditProduct />
+      },
     ]
   }
 ]);

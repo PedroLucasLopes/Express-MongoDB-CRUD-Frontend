@@ -1,51 +1,41 @@
-import React from 'react';
-import * as Styled from './Styles/HomeStyle';
-import Card from '../../Components/Card/Card';
+import React from "react";
+import * as Styled from "./Styles/HomeStyle";
+import Card from "../../Components/Card/Card";
+import Navbar from "../../Components/Navbar/Navbar";
+import instance from "../../utils/instance";
 
-const products = [
-    {
-        name: 'Geladeira Tsunami',
-        description: 'Geladeira Samsung 2 portas',
-        price: 2500.00
-    },
-    {
-        name: 'Frigideira Jest',
-        description: 'Frigideira Jest feita por teste automatizado',
-        price: 200.00
-    },
-    {
-        name: 'Panela de pressão',
-        description: 'Panela de pressão Eletrolux',
-        price: 120.00
-    },
-    {
-        name: 'Churrasqueira Elétrica',
-        description: 'Churrasqueira Eletrica que pega fogo',
-        price: 350.00
-    },
-    {
-        name: 'Conjunto de pratos',
-        description: 'Conjunto de 25 pratos rasos Inox',
-        price: 120.50
-    },
-]
+const Home = () => {
+  const [search, setSearch] = React.useState('');
+  const [productsData, setProductsData] = React.useState();
 
-const Home = ({ search }) => {
-    return (
-        <Styled.Main>
-            <Styled.Title>Products</Styled.Title>
-            {
-                products.map(({ name, description, price }) => {
-                    <Card
-                        key={name}
-                        name={name}
-                        description={description}
-                        price={Number(price).toFixed(2)}
-                    />
-                })
-            }
-        </Styled.Main>
-    )
-}
+  React.useEffect(() => {
+    instance.get('products').then(({ data }) => {
+      setProductsData(data);
+    });
+  }, [])
+
+  const searchLowerCase = search.toLowerCase();
+  const currentItems = search
+    ? productsData?.filter(({ name }) => name.toLowerCase().includes(searchLowerCase))
+    : productsData
+
+  return (
+    <Styled.Main>
+      <Navbar setSearch={setSearch} />
+      <Styled.Title>Products</Styled.Title>
+      <Styled.GridCard>
+        {productsData && currentItems.map(({ name, description, price, _id }) =>
+          <Card
+            key={_id}
+            name={name}
+            description={description}
+            price={Number(price).toFixed(2)}
+            id={_id}
+          />
+        )}
+      </Styled.GridCard>
+    </Styled.Main>
+  );
+};
 
 export default Home;
